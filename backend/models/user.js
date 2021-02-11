@@ -5,17 +5,26 @@ const { v4: uuidv4 } = require('uuid')
 
 const userSchema = new mongoose.Schema({
 
-  name:{
+    firstName:{
+        type:String,
+        require:true,
+        trim:true,
+        min:3,
+        max:30
+    },
+    lastName:{
       type:String,
-      required:true,
+      require:true,
       trim:true,
-      maxlength:32
+      min:3,
+      max:30
     },
     email:{
-        type: String,
-        required:true,
+        type:String,
+        require:true,
         trim:true,
-        unique: 32
+        unique:true,
+        lowercase:true
     },
     salt: String,
     hashed_password:{
@@ -61,3 +70,4 @@ const userSchema = new mongoose.Schema({
   };
 
 module.exports = mongoose.model('user', userSchema) 
+

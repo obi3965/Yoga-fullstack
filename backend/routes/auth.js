@@ -1,11 +1,12 @@
 const express = require('express');
-const { signup, signin } = require('../controllers/authController')
+const { signup, signin, signout } = require('../controllers/authController');
+const {  isRequestValidated, validateSignUpRequest, validateSignInRequest } = require('../validation/validate');
 
 const router = express.Router();
 
-router.post('/signup', signup)
-router.post('/signin', signin)
-
+router.post('/signup', validateSignUpRequest, isRequestValidated, signup)
+router.post('/signin',isRequestValidated, validateSignInRequest, signin)
+router.get('/signout', signout)
 
 
 
