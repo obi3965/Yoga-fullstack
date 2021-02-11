@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid')
 
 const userSchema = new mongoose.Schema({
 
@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema({
         trim:true,
         unique: 32
     },
-
-    password:{
+    salt: String,
+    hashed_password:{
         required:true,
         type:String,
     },
@@ -28,27 +28,36 @@ const userSchema = new mongoose.Schema({
     },
    
 
-}, { toJSON : {virtuals : true},
-    toObject : {virtuals : true}},{ timestamps: true, })
+}, { timestamps: true, })
 
 
-//encrypting the password
-userSchema.pre('save', async function(next){
-    this.password = await bcrypt.hash(this.password, 10)
-})
-
-// Return JSON Web Token
-userSchema.methods.getJwtToken = function() {
-    return jwt.sign({ id : this._id}, process.env.JWT_TOKEN, {
-        expiresIn : process.env.JWT_EXPIRES_IN
+    userSchema
+    .virtual("password")
+    .set(function (password) {
+      this._password = password;
+      this.salt = uuidv4();
+      this.hashed_password = this.encryptPassword(password);
+    })
+    .get(function () {
+      return this._password;
     });
-}
-
-//get rid off _id
-userSchema.method("toJSON", function() {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-  });
+  
+  userSchema.methods = {
+    authenticate: function (plainText) {
+      return this.encryptPassword(plainText) === this.hashed_password;
+    },
+  
+    encryptPassword: function (password) {
+      if (!password) return "";
+      try {
+        return crypto
+          .createHmac("sha1", this.salt)
+          .update(password)
+          .digest("hex");
+      } catch (err) {
+        return "";
+      }
+    },
+  };
 
 module.exports = mongoose.model('user', userSchema) 
