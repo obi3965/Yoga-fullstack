@@ -77,13 +77,13 @@ app.use(cors());
 app.use(limiter);
 
 // Importing all routes
-// const jobs = require('./routes/jobs');
+ const category = require('./routes/category');
 // const auth = require('./routes/auth');
-// const user = require('./routes/user');
+ const user = require('./routes/user');
 
-// app.use('/api/v1', jobs);
+ app.use('/api/v1', category);
  app.use('/api/v1', auth);
-// app.use('/api/v1', user);
+ app.use('/api/v1', user);
 
 
 
