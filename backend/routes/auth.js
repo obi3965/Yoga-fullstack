@@ -5,7 +5,7 @@ const {  isRequestValidated, validateSignUpRequest, validateSignInRequest } = re
 const router = express.Router();
 
 router.post('/signup', validateSignUpRequest, isRequestValidated, signup)
-router.post('/signin',isRequestValidated, validateSignInRequest, signin)
+router.post('/signin', validateSignInRequest,isRequestValidated, signin)
 router.get('/signout', signout)
 
 

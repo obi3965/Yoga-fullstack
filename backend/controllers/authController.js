@@ -43,14 +43,15 @@ exports.signin = async (req, res) => {
              token, 
              user: { _id, email, firstName, lastName, role } });
           } 
+          
        }
        else{
           return res.status(401).json({
-            error: 'Email and password do not match'
+            error: error
            })
          }
       } catch (error) {
-       res.status(500).json({
+      return res.status(500).json({
          error:error
        })
       }
@@ -61,8 +62,8 @@ exports.signin = async (req, res) => {
 exports.signout = async (req,res) =>{
  const userSignOut = await res.clearCookie('token')
   res.json({
-     
-     userSignOut: "you are signed out now",
+    userSignOut,
+     message: "you are signed out now",
     });
   
   
