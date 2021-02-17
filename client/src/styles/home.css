@@ -1,0 +1,86 @@
+.box-1{
+   display: flex !important;
+   justify-content: center !important;
+   align-items: flex-start !important;
+   flex-direction: column;
+   height: 100% !important;
+   width: 100%;
+   
+}
+.home-banner-bg{
+    height: 100vh !important;
+    background-color: #faefee;
+}
+.home-banner{
+    height: 80vh !important;
+    /* background-image: url('https://www.inquirer.com/resizer/xmEnW72LoeBStvs99H2I-24nI9s=/1200x0/center/middle/www.inquirer.com/resizer/QHAzE3SmBWEWIDBs_9W8lYKwK_A=/1200x0/center/middle/arc-anglerfish-arc2-prod-pmn.s3.amazonaws.com/public/FG4UZBHESBCN7OYPXOL2WT7JLM.jpg');
+    background-position: -50%, center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 100; */
+    padding-top: 20px;
+}
+.box-2 img{
+    width: 90%;
+    height: 580px;
+    margin-top: 20px;
+}
+.box-1 h1{
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 45px;
+    font-family: 'El Messiri', sans-serif;;
+    font-weight: 600;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+   
+    color: #ff782b;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.15rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    outline: none !important;
+    border: 2px solid #ff782b !important;
+    margin-top: 30px;
+}
+.button:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+   
+    z-index: -2;
+}
+.button:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #ff782b;
+    transition: all 0.3s;
+    
+    z-index: -1;
+}
+.button:hover {
+    color: #fff;
+}
+.button:hover:before {
+    width: 100%;
+}
+
+
+
+
+
