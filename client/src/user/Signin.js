@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import Spinner from '../../node_modules/react-spinners-css/dist/Spinner/index';
-import {authenticate, login} from '../auth'
+import {authenticate, isAuthenticated, login} from '../auth'
 import {Link, Redirect} from 'react-router-dom'
 /**
 * @author
@@ -9,8 +9,7 @@ import {Link, Redirect} from 'react-router-dom'
 
 const Signup = () => {
 
-  const [values, setValues] = useState({
-    
+  const [values, setValues] = useState({ 
     email:'',
     password:'',
     error:'',
@@ -18,7 +17,7 @@ const Signup = () => {
    redirectRefer:false
   });
   const { email, password, loading, error, redirectRefer } = values;
-
+  const {user} = isAuthenticated()
   const handleChange = name => event => {
       setValues({ ...values, error: false, [name]: event.target.value });
   };
@@ -77,8 +76,14 @@ const showLoading = () =>
 
         const redirect = () =>{
           if(redirectRefer){
-            return <Redirect to="/" />
+            if (user && user.role === 1) {
+              return <Redirect to="/admin/dashboard" />;
+          } else {
+              return <Redirect to="/user/dashboard" />;
           }
+          }if (isAuthenticated()) {
+            return <Redirect to="/" />;
+        }
         }
 
   return(

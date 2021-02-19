@@ -10,6 +10,7 @@
 .home-banner-bg{
     height: 100vh !important;
     background-color: #faefee;
+    
 }
 .home-banner{
     height: 80vh !important;
@@ -32,6 +33,12 @@
     font-size: 45px;
     font-family: 'El Messiri', sans-serif;;
     font-weight: 600;
+}
+.box-1 h2{
+    color: #ff782b;
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 45px;
 }
 
 .button {

@@ -37,7 +37,7 @@ export const login = async (user) => {
 }
 
 
-export const authenticate = async (data,next) =>{
+export const authenticate = (data,next) =>{
     if(typeof window !== 'undefined'){
          localStorage.setItem('t', JSON.stringify(data))
          next()
@@ -51,15 +51,27 @@ export const signout = async (next) =>{
     if(typeof window !== 'undefined'){
       localStorage.removeItem('t')
       next()
-      const signOutData ={
-        method:'GET'
-    }
-    try {
-        const res = await fetch(`${API}/signout`, signOutData)
+     
+    try { 
+        
+        const res = await fetch(`${API}/signout`,{
+            method:"GET"
+        })
              return res.json()
        
     } catch (error) {
         console.log(error);
     }
+    }
+}
+
+export const isAuthenticated =  () => {
+    if (typeof window == 'undefined') {
+        return false;
+    }
+    if (localStorage.getItem('t')) {
+        return JSON.parse(localStorage.getItem('t'));
+    } else {
+        return false;
     }
 }

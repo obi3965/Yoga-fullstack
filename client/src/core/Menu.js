@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { signout } from '../auth'
+import React, {Fragment, useState } from 'react'
+import { Link, NavLink, withRouter } from 'react-router-dom'
+import { isAuthenticated, signout } from '../auth'
 import homeBanner from '../image/logo.png'
 import '../styles/Navbar.css'
+import Dashboard from './Dashboard'
 
 
 
@@ -28,43 +29,67 @@ const Navbar = ({history}) => {
               </NavLink>
             </li>
             
-            <li className='nav-item'>
+            {isAuthenticated() && isAuthenticated().user.role === 0 && (
+               <li className='nav-item'>
               <NavLink
-                to='/contact'
+                to='/user/dashboard'
                 className='nav-links' activeClassName="is-active"
                 onClick={closeMobileMenu}
               >
-                contacts
+                Dashboard
               </NavLink>
             </li>
-            
-            <li className='nav-item'>
-              <NavLink className="btn btn-outline"
-              to='/signin'
-              className='nav-links' activeClassName="is-active"
-              onClick={closeMobileMenu} > 
-                 sign in
-              </NavLink>
-              </li>
+            )}
 
-              <li className='nav-item'>
-              <NavLink className="btn btn-outline"
-              to='/signup'
-              className='nav-links' activeClassName="is-active"
-              onClick={closeMobileMenu} > 
-                 sign up
+         { isAuthenticated() && isAuthenticated().user.role === 1 && (
+               <li className='nav-item'>
+              <NavLink
+                to='/admin/dashboard'
+                className='nav-links' activeClassName="is-active"
+                onClick={closeMobileMenu}
+              >
+                Dashboard
               </NavLink>
             </li>
+            )} 
+            
+            {!isAuthenticated() && (
+                <Fragment>
+                 <li className='nav-item'>
+                 <NavLink className="btn btn-outline"
+                 to='/signin'
+                 className='nav-links' activeClassName="is-active"
+                 onClick={closeMobileMenu} > 
+                    sign in
+                 </NavLink>
+                 </li>
+   
+                 <li className='nav-item'>
+                 <NavLink className="btn btn-outline"
+                 to='/signup'
+                 className='nav-links' activeClassName="is-active"
+                 onClick={closeMobileMenu} > 
+                    sign up
+                 </NavLink>
+               </li>
+               </Fragment>
+            )}
+
+           
+           
+           {isAuthenticated() && (
             <li className='nav-item'>
-              <NavLink className="btn btn-outline"
+              <NavLink className="btn btn-signout"
               to='/signout'
-              className='nav-links' activeClassName="is-active"
-              onClick={() => signout(()=>{
-                  history.push('/')
-              }) } > 
-                 signout
+              onClick={()=> signout(() =>{
+                history.push('/')
+            })}
+              > 
+                 sign out
               </NavLink>
             </li>
+            )}
+            
             
           </ul>
           
@@ -76,6 +101,6 @@ const Navbar = ({history}) => {
 
  }
 
-export default Navbar
+export default withRouter(Navbar)
 
 

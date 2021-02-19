@@ -1,5 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import AdminRoute from '../auth/AdminRoute.js'
+import PrivateRoute from '../auth/PrivateRoute.js'
+import AdminDashboard from '../core/AdminDashboard.js'
+import Dashboard from '../core/Dashboard.js'
 import Home from '../core/Home.js'
 import Menu from '../core/Menu.js'
 import Signin from '../user/Signin.js'
@@ -17,7 +22,10 @@ const Routes = (props) => {
       <Switch>
       <Route path='/signup' exact component={ Signup } />
       <Route path='/signin' exact component={ Signin } />
-     <Route path='/' exact component={ Home} />
+      <Route path='/' exact component={ Home} />
+      <PrivateRoute path="/user/dashboard" exact component={ Dashboard } />
+      <AdminRoute path="/admin/dashboard" exact component={ AdminDashboard } />
+      
       </Switch>
     </BrowserRouter>
     </>
