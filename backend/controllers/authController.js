@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const jwt = require('jsonwebtoken');
+const { errorHandler } = require("../errorHandler/AppError");
 
 
 exports.signup = async (req, res) => {
@@ -18,11 +19,13 @@ exports.signup = async (req, res) => {
              res.status(200).json(
                  user
              )
-   } catch (error) {
-     res.status(500).json({
-       error:error
-     })
+   } catch (err) {
+     res.status(500).json(
+       {err: errorHandler(err)}
+     )
    }
+
+  
 };
 
 
@@ -37,11 +40,12 @@ exports.signin = async (req, res) => {
        if(user){
          if(user.authenticate(password)){
           const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_TOKEN);
-          res.cookie("token", token, { expire: new Date() + process.env.JWT_EXPIRES_IN });
-          const { _id, email, firstName, lastName, role } = user;
+          res.cookie("token", token, { expire: new Date() + process.env.JWT_EXPIRES_IN },{httpOnly:true} );
+          const { _id, email, name, role } = user;
            res.json({ 
+             success:true,
              token, 
-             user: { _id, email, firstName, lastName, role } });
+             user: { _id, email, name, role } });
           } 
           
        }
@@ -60,11 +64,20 @@ exports.signin = async (req, res) => {
 
   
 exports.signout = async (req,res) =>{
- const userSignOut = await res.clearCookie('token')
-  res.json({
-    userSignOut,
-     message: "you are signed out now",
-    });
+//  const userSignOut = await res.clearCookie('token')
+//   res.json({
+//     userSignOut,
+//      message: "you are signed out now",
+//     });
   
+res.cookie('token', 'none', {
+  expires : new Date(Date.now()),
+  httpOnly : true 
+});
+
+res.status(200).json({
+  success : true,
+  message : 'Logged out successfully.'
+});
   
 }

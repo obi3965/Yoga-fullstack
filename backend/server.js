@@ -36,23 +36,19 @@ mongoose
   });
 
 
-// Set up body parser
-app.use(bodyParser.urlencoded({ extended : true }));
+// middleware -
+app.use(express.json());
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
 app.use(express.static('public'));
 
 // Setup security headers
 app.use(helmet());
 
-app.use(logger('dev'))
-// Setup body parser
-app.use(express.json());
-
-// Set cookie parser
-app.use(cookieParser());
-
-// Handle file uploads
-//app.use(fileUpload());
 
 // Sanitize data
 app.use(mongoSanitize());
@@ -71,23 +67,21 @@ const limiter = rateLimit({
     max : 100
 });
 
-// Setup CORS - Accessible by other domains
-app.use(cors());
+
 
 app.use(limiter);
 
-// Importing all routes
- const category = require('./routes/category');
+
 // const auth = require('./routes/auth');
  const user = require('./routes/user');
 
- app.use('/api/v1', category);
- app.use('/api/v1', auth);
- app.use('/api/v1', user);
+ 
+ app.use('/api', auth);
+ app.use('/api', user);
 
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 
 app.listen(port, function(){

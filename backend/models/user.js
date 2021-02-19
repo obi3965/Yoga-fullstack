@@ -5,20 +5,14 @@ const { v4: uuidv4 } = require('uuid')
 
 const userSchema = new mongoose.Schema({
 
-    firstName:{
+    name:{
         type:String,
         require:true,
         trim:true,
         min:3,
         max:30
     },
-    lastName:{
-      type:String,
-      require:true,
-      trim:true,
-      min:3,
-      max:30
-    },
+   
     email:{
         type:String,
         require:true,

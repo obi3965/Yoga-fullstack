@@ -3,8 +3,7 @@ const { check, validationResult } = require('express-validator')
 
 
     exports.validateSignUpRequest = [
-        check('firstName').notEmpty().withMessage('first Name is required'),
-        check('lastName').notEmpty().withMessage('last Name is required'),
+        check('name').notEmpty().withMessage('Name is required'),
         check('email').isEmail().withMessage('valid email is required'),
         check('password').isLength({min:6}).withMessage('password must be at least 6 character long'),
     ];
