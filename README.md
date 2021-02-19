@@ -1,2 +1,2 @@
-# Yoga-fullstack
-yoga website built with node js and mongoDB
+# fullstack Authentication
+user and admin authentication
